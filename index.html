@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TalkGPT</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="title-bar">TalkGPT</div>
+      <div class="chatlog" id="chatlog">
+        <div class="default">
+          <div class="message chatgpt">
+            <img class="icon" src="https://static.vecteezy.com/system/resources/previews/021/059/827/original/chatgpt-logo-chat-gpt-icon-on-white-background-free-vector.jpg" alt="TalkGPT Icon">
+            <div class="content">Welcome to TalkGPT! How can I assist you today?</div>
+          </div>
+        </div>
+      </div>
+      <div class="input-container">
+        <input type="text" id="userinput" placeholder="Ask your question" />
+        <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        <div class="voice-buttons">
+          <button onclick="startVoiceInput()"><i class="fas fa-microphone"></i></button>
+          <button onclick="stopVoiceInput()"><i class="fas fa-stop"></i></button>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  </body>
+</html>
