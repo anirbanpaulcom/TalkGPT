@@ -3,7 +3,7 @@ import openai
 import re
 
 app = Flask(__name__)
-openai.api_key = "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"
+openai.api_key = "your_API_key"
 
 # Set the maximum question count limit
 MAX_QUESTION_COUNT = 15
