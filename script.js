@@ -6,8 +6,6 @@ function setQuestionCount(count) {
   sessionStorage.setItem('questionCount', count);
 }
 
-let recognition;
-
 function appendMessage(message, isUser = false) {
   const chatlog = document.getElementById('chatlog');
   const messageElement = document.createElement('div');
@@ -15,7 +13,8 @@ function appendMessage(message, isUser = false) {
 
   const iconElement = document.createElement('img');
   iconElement.className = 'icon';
-  iconElement.src = isUser ? 'https://avatars.githubusercontent.com/u/130109852?v=4' : 'https://static.vecteezy.com/system/resources/previews/021/059/827/original/chatgpt-logo-chat-gpt-icon-on-white-background-free-vector.jpg';
+  iconElement.src = isUser ? 'https://avatars.githubusercontent.com/u/130109852?v=4' 
+  : 'https://static.vecteezy.com/system/resources/previews/021/059/827/original/chatgpt-logo-chat-gpt-icon-on-white-background-free-vector.jpg';
   iconElement.alt = isUser ? 'User Icon' : 'TalkGPT Icon';
 
   const contentElement = document.createElement('div');
@@ -41,7 +40,7 @@ function sendMessage() {
   const message = userInput.value;
 
   const questionCount = getQuestionCount();
-  if (questionCount >= 15) {
+  if (questionCount >= 15 ) {
     appendMessage("Sorry! You have reached the limit of TalkGPT usage for today.");
     return;
   }
@@ -49,6 +48,13 @@ function sendMessage() {
   userInput.value = '';
   removeDefaultDiv();
   appendMessage(message, true);
+
+  // Simulate an error
+  // Comment out this block if you want to test the success case
+  if (message.toLowerCase() === 'error') {
+    throw new Error('An error occurred.');
+  }
+
   fetch('/get_response', {
     method: 'POST',
     headers: {
@@ -56,10 +62,22 @@ function sendMessage() {
     },
     body: message,
   })
-    .then((response) => response.text())
+    .then((response) => {
+      if (response.ok) {
+        return response.text();
+      } else {
+        throw new Error('Request failed');
+      }
+    })
     .then((data) => {
       appendMessage(data);
       speak(data);
+    })
+    .catch((error) => {
+      console.error(error);
+      const errorMessage = "Apologies, but due to the limitations of the static platform, the backend functionality is limited.";
+      appendMessage(errorMessage);
+      speak(errorMessage);
     });
 
   setQuestionCount(questionCount + 1);
@@ -103,3 +121,6 @@ function speak(text) {
 window.addEventListener('beforeunload', function () {
   setQuestionCount(0);
 });
+
+document.getElementById('sendbutton').addEventListener('click', sendMessage);
+document.getElementById('voiceinput').addEventListener('click', startVoiceInput);
